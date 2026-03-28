@@ -1,0 +1,143 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root { width: 100%; height: 100%; }
+
+.sd-root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #b5b878 0%, #5c5a2e 60%, #3a3520 100%);
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+/* Navbar */
+.sd-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  gap: 16px;
+}
+
+.sd-nav-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sd-nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.sd-nav-link {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.7);
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.sd-nav-link:hover { background: rgba(255,255,255,0.2); color: #fff; }
+.sd-nav-link.active {
+  background: #b5b878;
+  border-color: #b5b878;
+  color: #2a2a10;
+  font-weight: 600;
+}
+
+.sd-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sd-nav-user {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.sd-nav-logout {
+  background: rgba(255,80,80,0.15);
+  border: 1px solid rgba(255,80,80,0.3);
+  border-radius: 8px;
+  color: #ffaaaa;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: all 0.2s;
+}
+.sd-nav-logout:hover { background: rgba(255,80,80,0.28); }
+
+/* Body */
+.sd-body {
+  flex: 1;
+  padding: 40px 48px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sd-greeting {
+  margin-bottom: 36px;
+}
+.sd-greeting h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.sd-greeting p {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+}
+
+.sd-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+  color: #e8e4a0;
+}
+
+/* Cards */
+.sd-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  transition: background 0.2s, transform 0.2s;
+  animation: fadeUp 0.3s ease both;
+}
+.sd-card:hover {
+  background: rgba(255,255,255,0.16);
+  transform: translateX(4px);
+}
+.sd-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.sd-card p {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.sd-empty {
+  text-align: center;
+  padding: 48px;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

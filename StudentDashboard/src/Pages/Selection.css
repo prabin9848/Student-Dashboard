@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sel-root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.sel-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 16px;
+  transition: flex 0.3s ease;
+}
+
+.sel-half:hover {
+  flex: 1.05;
+}
+
+.sel-student {
+  background: linear-gradient(
+    to bottom,
+    #b5b878 0%, #b5b878 50%,
+    #5c5a2e 50%, #5c5a2e 100%
+  );
+}
+
+.sel-teacher {
+  background: linear-gradient(
+    to bottom,
+    #c8bf5a 0%, #c8bf5a 50%,
+    #1a5c4a 50%, #1a5c4a 100%
+  );
+}
+
+.sel-img {
+  width: 180px;
+  height: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4));
+  transition: transform 0.3s ease;
+}
+
+.sel-half:hover .sel-img {
+  transform: translateY(-8px) scale(1.04);
+}
+
+.sel-label {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.95);
+}

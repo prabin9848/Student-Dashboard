@@ -1,0 +1,203 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root { width: 100%; height: 100%; }
+
+.td-root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #c8bf5a 0%, #1a5c4a 50%, #0a2a20 100%);
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+/* Navbar */
+.td-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  gap: 16px;
+}
+
+.td-nav-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.td-nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.td-nav-link {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.7);
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.td-nav-link:hover { background: rgba(255,255,255,0.2); color: #fff; }
+.td-nav-link.active {
+  background: #c8bf5a;
+  border-color: #c8bf5a;
+  color: #1a1a00;
+  font-weight: 600;
+}
+
+.td-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.td-nav-user {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.td-nav-logout {
+  background: rgba(255,80,80,0.15);
+  border: 1px solid rgba(255,80,80,0.3);
+  border-radius: 8px;
+  color: #ffaaaa;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: all 0.2s;
+}
+.td-nav-logout:hover { background: rgba(255,80,80,0.28); }
+
+/* Body */
+.td-body {
+  flex: 1;
+  padding: 40px 48px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.td-greeting {
+  margin-bottom: 36px;
+}
+.td-greeting h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.td-greeting p {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+}
+
+.td-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  color: #e8e4a0;
+}
+
+/* Add Form */
+.td-form {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.td-form input,
+.td-form textarea {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.td-form input:focus,
+.td-form textarea:focus { border-color: #c8bf5a; }
+.td-form input::placeholder,
+.td-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+.td-add-btn {
+  align-self: flex-start;
+  padding: 10px 24px;
+  background: #c8bf5a;
+  border: none;
+  border-radius: 10px;
+  color: #1a1a00;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.td-add-btn:hover { opacity: 0.85; }
+.td-add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Cards */
+.td-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  transition: background 0.2s, transform 0.2s;
+  animation: fadeUp 0.3s ease both;
+}
+.td-card:hover {
+  background: rgba(255,255,255,0.16);
+  transform: translateX(4px);
+}
+.td-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.td-card p {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.td-delete-btn {
+  margin-top: 10px;
+  background: none;
+  border: 1px solid rgba(255,80,80,0.35);
+  border-radius: 6px;
+  color: rgba(255,120,120,0.8);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+.td-delete-btn:hover {
+  background: rgba(255,80,80,0.15);
+  color: #ffaaaa;
+}
+
+.td-empty {
+  text-align: center;
+  padding: 48px;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
