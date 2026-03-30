@@ -1,17 +1,27 @@
 import './Selection.css';
-import studentImg from '../assets/student_.png';
-import teacherImg from '../assets/image.png';
 
 const Selection = ({ setPage }) => {
   return (
     <div className="sel-root">
-      <div className="sel-half sel-student" onClick={() => setPage("studentLogin")}>
-        <img src={studentImg} alt="Student" className="sel-img" />
-        <p className="sel-label">STUDENT</p>
-      </div>
-      <div className="sel-half sel-teacher" onClick={() => setPage("teacherLogin")}>
-        <img src={teacherImg} alt="Teacher" className="sel-img" />
-        <p className="sel-label">TEACHER</p>
+      <div className="sel-content">
+        <div className="sel-header">
+          <h1>Welcome to Student Dashboard</h1>
+          <p>Select your role to continue</p>
+        </div>
+
+        <div className="sel-cards">
+          <div className="sel-card" onClick={() => setPage("studentLogin")}>
+            <div className="sel-card-icon">👨‍🎓</div>
+            <h2>Student</h2>
+            <p>Access your courses and announcements</p>
+          </div>
+
+          <div className="sel-card" onClick={() => setPage("teacherLogin")}>
+            <div className="sel-card-icon">👩‍🏫</div>
+            <h2>Teacher</h2>
+            <p>Manage courses and post announcements</p>
+          </div>
+        </div>
       </div>
     </div>
   );

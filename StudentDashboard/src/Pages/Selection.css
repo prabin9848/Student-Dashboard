@@ -1,67 +1,87 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body, #root {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
 .sel-root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
   display: flex;
-  width: 100vw;
-  height: 100vh;
-}
-
-.sel-half {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+}
+
+.sel-content {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.sel-header {
+  margin-bottom: 48px;
+}
+
+.sel-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.sel-header p {
+  font-size: 1.1rem;
+  color: #94A3B8;
+}
+
+.sel-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.sel-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 40px 24px;
   cursor: pointer;
-  gap: 16px;
-  transition: flex 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.sel-half:hover {
-  flex: 1.05;
+.sel-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #6366F1;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
 }
 
-.sel-student {
-  background: linear-gradient(
-    to bottom,
-    #b5b878 0%, #b5b878 50%,
-    #5c5a2e 50%, #5c5a2e 100%
-  );
+.sel-card-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
 }
 
-.sel-teacher {
-  background: linear-gradient(
-    to bottom,
-    #c8bf5a 0%, #c8bf5a 50%,
-    #1a5c4a 50%, #1a5c4a 100%
-  );
-}
-
-.sel-img {
-  width: 180px;
-  height: 200px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4));
-  transition: transform 0.3s ease;
-}
-
-.sel-half:hover .sel-img {
-  transform: translateY(-8px) scale(1.04);
-}
-
-.sel-label {
-  font-size: 1.6rem;
+.sel-card h2 {
+  font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.35em;
-  color: rgba(255, 255, 255, 0.95);
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.sel-card p {
+  color: #94A3B8;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .sel-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .sel-header p {
+    font-size: 1rem;
+  }
+
+  .sel-card {
+    padding: 32px 20px;
+  }
+
+  .sel-card-icon {
+    font-size: 3rem;
+  }
 }

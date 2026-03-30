@@ -1,138 +1,126 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html, body, #root { width: 100%; height: 100%; }
-
 .tl-root {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #c8bf5a 0%, #c8bf5a 50%, #1a5c4a 50%, #1a5c4a 100%);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Navbar */
-.tl-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 32px;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(8px);
-}
-
-.tl-nav-logo {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.05em;
-}
-
-.tl-nav-back {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
-  color: #fff;
-  padding: 8px 18px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-.tl-nav-back:hover { background: rgba(255,255,255,0.25); }
-
-/* Center */
-.tl-center {
-  flex: 1;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
 }
 
-/* Card */
-.tl-card {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 20px;
-  padding: 44px 40px;
+.tl-center {
   width: 100%;
   max-width: 420px;
-  backdrop-filter: blur(16px);
-  animation: fadeUp 0.4s ease both;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+.tl-card {
+  background: #1E293B;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
 
 .tl-title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
-  letter-spacing: 0.15em;
   color: #fff;
-  margin-bottom: 6px;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .tl-sub {
-  color: rgba(255,255,255,0.6);
+  color: #94A3B8;
+  text-align: center;
+  margin-bottom: 32px;
   font-size: 0.95rem;
-  margin-bottom: 28px;
 }
 
-/* Fields */
 .tl-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .tl-field label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.6);
+  display: block;
+  color: #CBD5E1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .tl-field input {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  width: 100%;
+  padding: 12px 16px;
+  background: #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  padding: 13px 16px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
   outline: none;
-  height: 48px;
   transition: border-color 0.2s;
 }
-.tl-field input:focus { border-color: #c8bf5a; }
-.tl-field input::placeholder { color: rgba(255,255,255,0.3); }
 
-/* Error */
-.tl-error {
-  background: rgba(255,80,80,0.15);
-  border: 1px solid rgba(255,80,80,0.35);
-  border-radius: 8px;
-  color: #ffaaaa;
-  padding: 10px 14px;
-  font-size: 0.88rem;
-  margin-bottom: 12px;
+.tl-field input:focus {
+  border-color: #6366F1;
 }
 
-/* Button */
+.tl-field input::placeholder {
+  color: #64748B;
+}
+
+.tl-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #FCA5A5;
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+}
+
 .tl-btn {
   width: 100%;
   padding: 14px;
-  margin-top: 8px;
-  background: #c8bf5a;
+  background: #6366F1;
   border: none;
-  border-radius: 12px;
-  color: #1a1a00;
+  border-radius: 10px;
+  color: #fff;
   font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 600;
   cursor: pointer;
-  height: 52px;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: all 0.2s;
 }
-.tl-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.tl-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.tl-btn:hover {
+  background: #4F46E5;
+}
+
+.tl-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tl-nav-back {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: #94A3B8;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.tl-nav-back:hover {
+  border-color: #6366F1;
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .tl-card {
+    padding: 32px 24px;
+  }
+
+  .tl-title {
+    font-size: 1.5rem;
+  }
+}

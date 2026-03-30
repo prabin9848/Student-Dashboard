@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import "./StudentLogin.css";
 
 const StudentLogin = ({ setPage, setCurrentUser }) => {
@@ -15,7 +16,29 @@ const StudentLogin = ({ setPage, setCurrentUser }) => {
     setError("");
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      setCurrentUser({ email: result.user.email, role: "student" });
+
+      // Fetch user role from Firestore
+      const userRef = doc(db, "users", result.user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        setError("User not found in database. Please contact administrator.");
+        setLoading(false);
+        return;
+      }
+
+      const userData = userSnap.data();
+      const userRole = userData.role;
+
+      // Validate role matches login type
+      if (userRole !== "student") {
+        await auth.signOut();
+        setError("Access denied. This account is not registered as a student.");
+        setLoading(false);
+        return;
+      }
+
+      setCurrentUser({ uid: result.user.uid, email: result.user.email, role: "student" });
       setPage("studentDashboard");
     } catch (err) {
       setError("Invalid email or password.");
@@ -25,9 +48,6 @@ const StudentLogin = ({ setPage, setCurrentUser }) => {
 
   return (
     <div className="sl-root">
-      
-
-      {/* Login Card */}
       <div className="sl-center">
         <div className="sl-card">
           <h1 className="sl-title">STUDENT LOGIN</h1>
@@ -60,7 +80,7 @@ const StudentLogin = ({ setPage, setCurrentUser }) => {
           <button className="sl-btn" onClick={handleLogin} disabled={loading}>
             {loading ? "Logging in..." : "LOGIN"}
           </button>
-        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          <div style={{ marginTop: "16px", textAlign: "center" }}>
             <button className="tl-nav-back" onClick={() => setPage("selection")}>← Back</button>
           </div>
         </div>

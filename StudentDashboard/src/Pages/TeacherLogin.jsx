@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import "./TeacherLogin.css";
 
 const TeacherLogin = ({ setPage, setCurrentUser }) => {
@@ -15,7 +16,29 @@ const TeacherLogin = ({ setPage, setCurrentUser }) => {
     setError("");
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      setCurrentUser({ email: result.user.email, role: "teacher" });
+
+      // Fetch user role from Firestore
+      const userRef = doc(db, "users", result.user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        setError("User not found in database. Please contact administrator.");
+        setLoading(false);
+        return;
+      }
+
+      const userData = userSnap.data();
+      const userRole = userData.role;
+
+      // Validate role matches login type
+      if (userRole !== "teacher") {
+        await auth.signOut();
+        setError("Access denied. This account is not registered as a teacher.");
+        setLoading(false);
+        return;
+      }
+
+      setCurrentUser({ uid: result.user.uid, email: result.user.email, role: "teacher" });
       setPage("teacherDashboard");
     } catch (err) {
       setError("Invalid email or password.");
@@ -25,8 +48,6 @@ const TeacherLogin = ({ setPage, setCurrentUser }) => {
 
   return (
     <div className="tl-root">
-
-      {/* Login Card */}
       <div className="tl-center">
         <div className="tl-card">
           <h1 className="tl-title">TEACHER LOGIN</h1>
@@ -53,7 +74,6 @@ const TeacherLogin = ({ setPage, setCurrentUser }) => {
               onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
           </div>
-          
 
           {error && <div className="tl-error">{error}</div>}
 
