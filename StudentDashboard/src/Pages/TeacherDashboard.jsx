@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import {
   collection, addDoc, deleteDoc, doc,
-  onSnapshot, orderBy, query, serverTimestamp
+  onSnapshot, orderBy, query, serverTimestamp, where
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import "./TeacherDashboard.css";
@@ -10,6 +10,7 @@ import "./TeacherDashboard.css";
 const TeacherDashboard = ({ setPage, currentUser }) => {
   const [courses, setCourses] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [students, setStudents] = useState([]);
   const [activeTab, setActiveTab] = useState("home");
   const [loading, setLoading] = useState(true);
 
@@ -37,9 +38,16 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
       setAnnouncements(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     });
 
+    // Fetch all students from users collection
+    const qStudents = query(collection(db, "users"), where("role", "==", "student"));
+    const unsubStudents = onSnapshot(qStudents, (snap) => {
+      setStudents(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    });
+
     return () => {
       unsubCourses();
       unsubAnnouncements();
+      unsubStudents();
     };
   }, [currentUser, setPage]);
 
@@ -104,38 +112,70 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
       {/* Sidebar */}
       <aside className="td-sidebar">
         <div className="td-sidebar-header">
-          <span className="td-sidebar-logo">🎓 Teacher Portal</span>
+          <span className="td-sidebar-logo">Teacher Portal</span>
         </div>
         <nav className="td-sidebar-nav">
           <button
             className={`td-sidebar-link ${activeTab === "home" ? "active" : ""}`}
             onClick={() => setActiveTab("home")}
           >
-            <span className="icon">🏠</span> Home
+            <span className="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </span>
+            Home
           </button>
           <button
             className={`td-sidebar-link ${activeTab === "courses" ? "active" : ""}`}
             onClick={() => setActiveTab("courses")}
           >
-            <span className="icon">📚</span> Manage Courses
+            <span className="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            </span>
+            Manage Courses
           </button>
           <button
             className={`td-sidebar-link ${activeTab === "announce" ? "active" : ""}`}
             onClick={() => setActiveTab("announce")}
           >
-            <span className="icon">📢</span> Post Announcement
+            <span className="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+            </span>
+            Post Announcement
           </button>
           <button
             className={`td-sidebar-link ${activeTab === "students" ? "active" : ""}`}
             onClick={() => setActiveTab("students")}
           >
-            <span className="icon">👥</span> Students
+            <span className="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a7 7 0 0 0-7-7H5a7 7 0 0 0-7 7v2" />
+                <circle cx="12" cy="9" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </span>
+            Students
           </button>
           <button
             className={`td-sidebar-link ${activeTab === "profile" ? "active" : ""}`}
             onClick={() => setActiveTab("profile")}
           >
-            <span className="icon">👤</span> Profile
+            <span className="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            Profile
           </button>
         </nav>
       </aside>
@@ -164,21 +204,38 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
             <div className="td-home">
               <div className="td-stats-grid">
                 <div className="td-stat-card">
-                  <div className="td-stat-icon">📚</div>
+                  <div className="td-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                  </div>
                   <div className="td-stat-info">
                     <span className="td-stat-value">{courses.length}</span>
                     <span className="td-stat-label">Total Courses</span>
                   </div>
                 </div>
                 <div className="td-stat-card">
-                  <div className="td-stat-icon">👥</div>
+                  <div className="td-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a7 7 0 0 0-7-7H5a7 7 0 0 0-7 7v2" />
+                      <circle cx="12" cy="9" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
                   <div className="td-stat-info">
-                    <span className="td-stat-value">0</span>
+                    <span className="td-stat-value">{students.length}</span>
                     <span className="td-stat-label">Total Students</span>
                   </div>
                 </div>
                 <div className="td-stat-card">
-                  <div className="td-stat-icon">📢</div>
+                  <div className="td-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
                   <div className="td-stat-info">
                     <span className="td-stat-value">{announcements.length}</span>
                     <span className="td-stat-label">Announcements Posted</span>
@@ -227,7 +284,12 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
               <h2 className="td-section-title" style={{ marginTop: "32px" }}>All Courses</h2>
               {courses.length === 0 ? (
                 <div className="td-empty">
-                  <div className="td-empty-icon">📚</div>
+                  <div className="td-empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                  </div>
                   <p>No courses yet. Add one above!</p>
                 </div>
               ) : (
@@ -236,7 +298,13 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
                     <div className="td-card" key={c.id}>
                       <div className="td-card-header">
                         <h3>{c.title}</h3>
-                        <button className="td-delete-btn" onClick={() => deleteCourse(c.id)}>🗑 Delete</button>
+                        <button className="td-delete-btn" onClick={() => deleteCourse(c.id)}>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: "16px", height: "16px", verticalAlign: "middle", marginRight: "6px"}}>
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          </svg>
+                          Delete
+                        </button>
                       </div>
                       <p className="td-card-desc">{c.description}</p>
                     </div>
@@ -277,7 +345,12 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
               <h2 className="td-section-title" style={{ marginTop: "32px" }}>All Announcements</h2>
               {announcements.length === 0 ? (
                 <div className="td-empty">
-                  <div className="td-empty-icon">📢</div>
+                  <div className="td-empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
                   <p>No announcements yet.</p>
                 </div>
               ) : (
@@ -286,7 +359,13 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
                     <div className="td-card" key={a.id}>
                       <div className="td-card-header">
                         <h3>{a.title}</h3>
-                        <button className="td-delete-btn" onClick={() => deleteAnnouncement(a.id)}>🗑 Delete</button>
+                        <button className="td-delete-btn" onClick={() => deleteAnnouncement(a.id)}>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: "16px", height: "16px", verticalAlign: "middle", marginRight: "6px"}}>
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          </svg>
+                          Delete
+                        </button>
                       </div>
                       <p className="td-card-desc">{a.message}</p>
                       <span className="td-card-date">
@@ -302,11 +381,34 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
           {/* Students Tab */}
           {activeTab === "students" && (
             <div className="td-section">
-              <h2 className="td-section-title">Enrolled Students</h2>
-              <div className="td-empty">
-                <div className="td-empty-icon">👥</div>
-                <p>Student enrollment feature coming soon.</p>
-              </div>
+              <h2 className="td-section-title">Registered Students</h2>
+              {students.length === 0 ? (
+                <div className="td-empty">
+                  <div className="td-empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a7 7 0 0 0-7-7H5a7 7 0 0 0-7 7v2" />
+                      <circle cx="12" cy="9" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <p>No students registered yet.</p>
+                </div>
+              ) : (
+                <div className="td-students-list">
+                  {students.map((student) => (
+                    <div className="td-card" key={student.id}>
+                      <div className="td-card-header">
+                        <h3>{student.email}</h3>
+                        <span className="td-badge">Student</span>
+                      </div>
+                      <p className="td-card-desc">
+                        <strong>User ID:</strong> {student.id}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -314,7 +416,12 @@ const TeacherDashboard = ({ setPage, currentUser }) => {
           {activeTab === "profile" && (
             <div className="td-profile">
               <div className="td-profile-card">
-                <div className="td-profile-avatar">🎓</div>
+                <div className="td-profile-avatar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
                 <h2>Teacher Profile</h2>
                 <div className="td-profile-info">
                   <div className="td-profile-field">

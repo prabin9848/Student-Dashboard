@@ -15,14 +15,20 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
+      if (user) {
+        // User is signed in, but we don't auto-navigate
+        // Navigation is handled by login components after role validation
+      } else {
+        // User is signed out - only redirect if we're not on a login page
+        if (page !== "studentLogin" && page !== "teacherLogin") {
+          setPage("selection");
+        }
         setCurrentUser(null);
-        setPage("selection");
       }
       setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [page]);
 
   if (loading) {
     return (

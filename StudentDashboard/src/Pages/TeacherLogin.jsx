@@ -33,13 +33,15 @@ const TeacherLogin = ({ setPage, setCurrentUser }) => {
       // Validate role matches login type
       if (userRole !== "teacher") {
         await auth.signOut();
-        setError("Access denied. This account is not registered as a teacher.");
+        setError("Invalid email or password. This account is registered as a student.");
         setLoading(false);
         return;
       }
 
+      // Set user and navigate to dashboard
       setCurrentUser({ uid: result.user.uid, email: result.user.email, role: "teacher" });
       setPage("teacherDashboard");
+      setLoading(false);
     } catch (err) {
       setError("Invalid email or password.");
     }
@@ -51,7 +53,7 @@ const TeacherLogin = ({ setPage, setCurrentUser }) => {
       <div className="tl-center">
         <div className="tl-card">
           <h1 className="tl-title">TEACHER LOGIN</h1>
-          <p className="tl-sub">Welcome back, Sensei</p>
+          <p className="tl-sub">Enter your credentials to access the teacher portal</p>
 
           <div className="tl-field">
             <label>Email</label>

@@ -1,87 +1,135 @@
 .sel-root {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  background: var(--bg-base);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sel-root::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(79, 126, 255, 0.07) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .sel-content {
-  max-width: 800px;
   width: 100%;
-  text-align: center;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
 }
 
 .sel-header {
-  margin-bottom: 48px;
+  text-align: center;
 }
 
 .sel-header h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 .sel-header p {
-  font-size: 1.1rem;
-  color: #94A3B8;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .sel-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
 }
 
 .sel-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 40px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sel-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
 }
 
 .sel-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #6366F1;
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+  border-color: var(--border-strong);
+  background: var(--bg-elevated);
+  transform: translateY(-2px);
+}
+
+.sel-card:hover::after {
+  opacity: 1;
 }
 
 .sel-card-icon {
-  font-size: 4rem;
-  margin-bottom: 16px;
+  width: 44px;
+  height: 44px;
+  background: var(--accent-dim);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.sel-card-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.5;
 }
 
 .sel-card h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 8px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .sel-card p {
-  color: #94A3B8;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 520px) {
+  .sel-cards {
+    grid-template-columns: 1fr;
+  }
+
   .sel-header h1 {
-    font-size: 1.8rem;
-  }
-
-  .sel-header p {
-    font-size: 1rem;
-  }
-
-  .sel-card {
-    padding: 32px 20px;
-  }
-
-  .sel-card-icon {
-    font-size: 3rem;
+    font-size: 1.625rem;
   }
 }

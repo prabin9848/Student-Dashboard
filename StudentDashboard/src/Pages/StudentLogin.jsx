@@ -22,6 +22,7 @@ const StudentLogin = ({ setPage, setCurrentUser }) => {
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
+        await auth.signOut();
         setError("User not found in database. Please contact administrator.");
         setLoading(false);
         return;
@@ -33,13 +34,15 @@ const StudentLogin = ({ setPage, setCurrentUser }) => {
       // Validate role matches login type
       if (userRole !== "student") {
         await auth.signOut();
-        setError("Access denied. This account is not registered as a student.");
+        setError("Invalid email or password. This account is registered as a teacher.");
         setLoading(false);
         return;
       }
 
+      // Set user and navigate to dashboard
       setCurrentUser({ uid: result.user.uid, email: result.user.email, role: "student" });
       setPage("studentDashboard");
+      setLoading(false);
     } catch (err) {
       setError("Invalid email or password.");
     }
